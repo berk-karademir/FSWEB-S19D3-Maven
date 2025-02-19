@@ -236,7 +236,7 @@ class MainTest {
         given(mockRoleRepository.findByAuthority("ADMIN")).willReturn(Optional.of(role));
         given(mockMemberRepository.save(any(Member.class))).willReturn(member);
 
-        Member registeredMember = authenticationService.register("test@example.com", "password");
+        Member registeredMember = authenticationService.registerAdmin("test@example.com", "password");
 
         assertThat(registeredMember.getEmail()).isEqualTo("test@example.com");
         assertThat(registeredMember.getPassword()).isEqualTo("password");
@@ -250,6 +250,6 @@ class MainTest {
 
         assertThatThrownBy(() -> authenticationService.register("test@example.com", "password"))
                 .isInstanceOf(RuntimeException.class)
-                .hasMessageContaining("User with given email already exist");
+                .hasMessageContaining("This email already exists, check your email! ");
     }
 }
